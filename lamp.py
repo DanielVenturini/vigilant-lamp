@@ -1,7 +1,6 @@
-import os
 import sys
 import json
-import semver
+import worker as wk
 
 
 # get the path/to/package.json
@@ -13,8 +12,10 @@ def resolve_package(package_path):
         print('ERR: ' + str(ex))
         exit(1)
 
+
 # verify 'date' key in package.json
 def verify_date(package):
+
     try:
         return package['date']
     except:
@@ -22,13 +23,10 @@ def verify_date(package):
         exit(1)
 
 
-
-
-
-
 '''
     L A M P
 '''
+
 
 # check the call
 if sys.argv.__len__() > 2:
@@ -38,29 +36,12 @@ if sys.argv.__len__() > 2:
     print('    lamp path/to/package.json')
     exit(0)
 
+path = sys.argv[1]
 # get package.json
-package = resolve_package(sys.argv[1])
+package = resolve_package(path)
 
 # verify if package.json has 'date' key
 date = verify_date(package)
 
-print('date: ', date)
-# open package.json
-#package = open()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# resolve all range versions
+wk.worker(package, date, path)

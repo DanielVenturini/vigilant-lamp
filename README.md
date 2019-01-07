@@ -11,7 +11,7 @@ add the key ```date``` in package.json:
 }
 ```
 
-Then, type
+Then, tipe
 
 ```bash
 lamp package.json
@@ -28,3 +28,11 @@ lamp path/to/package.json
 pip install semver
 pip install requests
 ```
+
+or use
+
+```bash
+pip3
+```
+
+Build on ```Python 3.7```.
