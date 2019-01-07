@@ -25,8 +25,8 @@ lamp path/to/package.json
 
 ## dependencies
 ```bash
-pip install semver
-pip install requests
+pip install semver		# semver-2.8.1
+pip install requests	# requests-2.21.0 urllib3-1.24.1
 ```
 
 or use
@@ -35,4 +35,4 @@ or use
 pip3
 ```
 
-Build on ```Python 3.7```.
+Build on ```Python 3.6```.
