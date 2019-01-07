@@ -33,16 +33,51 @@ or
 lamp path/to/package.json
 ```
 
-## dependencies
-```bash
-pip install semver		# semver-2.8.1
-pip install requests		# requests-2.21.0 urllib3-1.24.1
+## example
+
+If ```package.json``` is:
+
+```json
+{
+	"date": "2015-06-30",
+	"dependencies": {
+		"express": "^4.10.6",
+		"lodash": "~3.9.0"
+	},
+	"devDependencies": {
+		"mongoose": "^4.5.9",
+		"mocha": "2.2.0"
+	}
+}
 ```
 
-or use
+the ```package.json``` result is:
 
+```json
+{
+  "date": "2015-06-30",
+  "dependencies": {
+    "express": "4.13.0",
+    "lodash": "3.9.3"
+  },
+  "devDependencies": {
+    "mocha": "2.2.0",
+    "mongoose": "^4.5.9"
+  }
+}
+```
+
+ - ```express``` and ```lodash``` were changed;
+ - ```mocha``` wasn't range; and
+ - in specify date, ```mongoose@^4.5.9``` didn't exist.
+
+also works to ```peerDependencies```, ```optionalDependencies``` and ```globalDependencies```.
+
+## dependencies
 ```bash
-pip3
+pip3 install requests
+pip3 install semantic_version
+pip3 install parsimonious
 ```
 
 Build on ```Python 3.6```.

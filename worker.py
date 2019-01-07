@@ -1,6 +1,7 @@
 import json
 import semver
 import network as ntw
+from versionrangeparser import NodeVersionRangeParser
 
 
 # save the package.json
@@ -19,21 +20,35 @@ def is_range(version):
 # get all versions until the specify date
 def get_times(time, date):
 
-    new_time = {}
+    versions = []
     for version in list(time.keys()):
+        if version.__eq__('created') or version.__eq__('modified'):
+            continue
+
         if time[version] <= date:
-            new_time[version] = time[version]
+            versions.append(version)
 
-    return new_time
+    return versions
 
 
+# get only the versions that is major
 # get all package.json's and get the maximum version of specify range version
 def resolve_version(dependency, version, date):
 
     time = ntw.get(dependency)['time']
-    time = get_times(time, date)
-    exit(0)
-    #print('time: ', time)
+    versions = get_times(time, date)
+
+    # resolve the range
+    nvrp = NodeVersionRangeParser()
+    svr = nvrp.parse(version)
+    # get the best satisfies range
+    new_version = svr.best_satisfies(versions)
+
+    # if one version satisfies
+    if new_version:
+        return str(new_version)
+    else:
+        return version
 
 
 # change all range versions in specify dependency
