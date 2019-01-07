@@ -39,15 +39,15 @@ If ```package.json``` is:
 
 ```json
 {
-	"date": "2015-06-30",
-	"dependencies": {
-		"express": "^4.10.6",
-		"lodash": "~3.9.0"
-	},
-	"devDependencies": {
-		"mongoose": "^4.5.9",
-		"mocha": "2.2.0"
-	}
+  "date": "2015-06-30",
+  "dependencies": {
+    "express": "^4.10.6",
+    "lodash": "~3.9.0"
+  },
+  "devDependencies": {
+    "mongoose": "^4.5.9",
+    "mocha": "2.2.0"
+  }
 }
 ```
 
