@@ -9,4 +9,11 @@ import requests
 '''
 
 def get(package_name):
-	pass
+
+	response = requests.get('http://registry.npmjs.org/' + package_name)
+
+	if response.status_code == 404:
+		print('package `{0}´ not found.'.format(package_name))
+		raise Exception()
+	else:
+		return response.json()

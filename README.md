@@ -11,6 +11,16 @@ add the key ```date``` in package.json:
 }
 ```
 
+but, the follow is better:
+
+```json
+{
+	"date": "2019-01-07T18:14:39.683Z"
+}
+```
+
+because this is an NPM time standart.
+
 Then, tipe
 
 ```bash
@@ -26,7 +36,7 @@ lamp path/to/package.json
 ## dependencies
 ```bash
 pip install semver		# semver-2.8.1
-pip install requests	# requests-2.21.0 urllib3-1.24.1
+pip install requests		# requests-2.21.0 urllib3-1.24.1
 ```
 
 or use

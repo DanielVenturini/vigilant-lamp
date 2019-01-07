@@ -16,6 +16,26 @@ def is_range(version):
            version.__contains__('<')
 
 
+# get all versions until the specify date
+def get_times(time, date):
+
+    new_time = {}
+    for version in list(time.keys()):
+        if time[version] <= date:
+            new_time[version] = time[version]
+
+    return new_time
+
+
+# get all package.json's and get the maximum version of specify range version
+def resolve_version(dependency, version, date):
+
+    time = ntw.get(dependency)['time']
+    time = get_times(time, date)
+    exit(0)
+    #print('time: ', time)
+
+
 # change all range versions in specify dependency
 def worker_dependeny(dependencies, date):
 
@@ -26,8 +46,15 @@ def worker_dependeny(dependencies, date):
         if not is_range(version):
             continue
 
-        print('dep: ', dependency, 'version: ', dependencies[dependency])
-        #dependencies[dependency] = 'venturini'
+        # resolve version
+        try:
+            new_version = resolve_version(dependency, version, date)
+        except Exception:
+            new_version = version
+
+        print('{0}@{1}'.format(dependency, dependencies[dependency]) + ' -> ' + new_version)
+        dependencies[dependency] = new_version
+
 
 
 # change all range versions in package.json
