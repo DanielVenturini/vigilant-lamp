@@ -33,7 +33,20 @@ or
 lamp path/to/package.json
 ```
 
-## example
+Then, all dependencies will be downgraded - or upgrade - to best satisfies range in specify date.
+
+## Install
+
+To install, clone this repo and tipe:
+
+```base
+make pre
+sudo make install
+```
+
+be happy.
+
+## Example
 
 If ```package.json``` is:
 
@@ -73,11 +86,13 @@ the ```package.json``` result is:
 
 also works to ```peerDependencies```, ```optionalDependencies``` and ```globalDependencies```.
 
-## dependencies
+## Dependencies
+
 ```bash
 pip3 install requests
 pip3 install semantic_version
 pip3 install parsimonious
+pip3 install pyinstaller
 ```
 
 Build on ```Python 3.6```.
