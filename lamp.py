@@ -1,6 +1,7 @@
 import sys
 import json
 import worker as wk
+from sys import exit
 
 
 # get the path/to/package.json
