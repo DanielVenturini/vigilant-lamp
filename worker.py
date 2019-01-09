@@ -14,7 +14,8 @@ def is_range(version):
     return version.__contains__('^') or \
            version.__contains__('~') or \
            version.__contains__('>') or \
-           version.__contains__('<')
+           version.__contains__('<') or \
+           version.__contains__('*')
 
 
 # get all versions until the specify date
