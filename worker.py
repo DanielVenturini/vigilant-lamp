@@ -15,7 +15,8 @@ def is_range(version):
            version.__contains__('~') or \
            version.__contains__('>') or \
            version.__contains__('<') or \
-           version.__contains__('*')
+           version.__contains__('*') or \
+           version.__contains__('.x')
 
 
 # get all versions until the specify date
@@ -38,7 +39,6 @@ def resolve_version(dependency, version, date):
 
     time = ntw.get(dependency)['time']
     versions = get_times(time, date)
-
     # resolve the range
     nvrp = NodeVersionRangeParser()
     svr = nvrp.parse(version)
