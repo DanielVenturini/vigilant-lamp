@@ -30,7 +30,7 @@ def verify_date(package):
 
 
 # check the call
-if sys.argv.__len__() > 2:
+if sys.argv.__len__() != 2:
     print('USE:')
     print('    lamp package.json')
     print('or')

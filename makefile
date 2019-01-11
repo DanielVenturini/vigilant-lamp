@@ -8,7 +8,7 @@ install:
 	cp dist/lamp/* /usr/bin/ -r
 
 executable:
-	pyinstaller lamp.py
+	pyinstaller lamp.py -y
 
 deps:
 	pip3 install requests
