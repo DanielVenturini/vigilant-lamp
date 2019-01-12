@@ -16,7 +16,9 @@ def is_range(version):
            version.__contains__('>') or \
            version.__contains__('<') or \
            version.__contains__('*') or \
-           version.__contains__('.x')
+           version.__contains__('.x') or \
+           version.__contains__('latest') or \
+           version.__contains__('||')
 
 
 # get all versions until the specify date
