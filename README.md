@@ -86,6 +86,18 @@ the ```package.json``` result is:
 
 also works to ```peerDependencies```, ```optionalDependencies``` and ```globalDependencies```.
 
+Suport any types of range:
+ - "package": "^1.2.3"
+ - "package": "~1.2.3"
+ - "package": "^1.x"
+ - "package": "4.x"
+ - "package": "\*"
+ - "package": "latest"
+ - "package": ">=10"
+ - "package": "^2.x < 2.9"
+ - "package": "0.x || 10.0.x"
+ - ...
+
 ## Dependencies
 
 ```bash
