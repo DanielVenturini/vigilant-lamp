@@ -44,7 +44,9 @@ make pre
 sudo make install
 ```
 
-be happy.
+this download all dependencies and install.
+
+Be happy.
 
 ## Example
 
@@ -105,6 +107,7 @@ pip3 install requests
 pip3 install semantic_version
 pip3 install parsimonious
 pip3 install pyinstaller
+pip3 install colorama
 ```
 
 Build on ```Python 3.6```.

@@ -1,6 +1,7 @@
 import json
 import semver
 import network as ntw
+from colorama import Fore, Style
 from versionrangeparser import NodeVersionRangeParser
 
 
@@ -18,7 +19,8 @@ def is_range(version):
            version.__contains__('*') or \
            version.__contains__('.x') or \
            version.__contains__('latest') or \
-           version.__contains__('||')
+           version.__contains__('||') or \
+           version.__contains__('next')
 
 
 # get all versions until the specify date
@@ -70,7 +72,12 @@ def worker_dependeny(dependencies, date):
         except Exception:
             new_version = version
 
-        print('{0}@{1}'.format(dependency, dependencies[dependency]) + ' -> ' + new_version)
+        if new_version.__eq__(version):
+            color = Fore.RED
+        else:
+            color = ''
+
+        print(color + '{0}@{1}'.format(dependency, dependencies[dependency]) + ' -> ' + new_version + Style.RESET_ALL)
         dependencies[dependency] = new_version
 
 

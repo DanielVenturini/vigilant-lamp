@@ -2,6 +2,7 @@ import sys
 import json
 import worker as wk
 from sys import exit
+from colorama import Fore
 
 
 # get the path/to/package.json
@@ -20,7 +21,7 @@ def verify_date(package):
     try:
         return package['date']
     except:
-        print('ERR: package hasn\'t `date´ key.')
+        print(Fore.RED + 'ERR: package hasn\'t `date´ key.')
         exit(1)
 
 
@@ -31,7 +32,7 @@ def verify_date(package):
 
 # check the call
 if sys.argv.__len__() != 2:
-    print('USE:')
+    print(Fore.YELLOW + 'USE:')
     print('    lamp package.json')
     print('or')
     print('    lamp path/to/package.json')

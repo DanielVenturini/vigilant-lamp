@@ -1,4 +1,5 @@
 import requests
+from colorama import Fore, Style
 
 '''
 	request to http://registry.npmjs.org/ and get all package.json
@@ -13,7 +14,7 @@ def get(package_name):
 	response = requests.get('http://registry.npmjs.org/' + package_name)
 
 	if response.status_code == 404:
-		print('package `{0}´ not found.'.format(package_name))
+		print(Fore.RED + 'package `{0}´ not found.'.format(package_name))
 		raise Exception()
 	else:
 		return response.json()
