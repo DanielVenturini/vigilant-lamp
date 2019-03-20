@@ -15,3 +15,4 @@ deps:
 	pip3 install semantic_version
 	pip3 install parsimonious
 	pip3 install pyinstaller
+	pip3 install semver

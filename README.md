@@ -101,13 +101,14 @@ Suport any types of range:
  - ...
 
 ## Dependencies
-
+All dependencies are installed when ```make pre```.
 ```bash
 pip3 install requests
 pip3 install semantic_version
 pip3 install parsimonious
 pip3 install pyinstaller
 pip3 install colorama
+pip3 install semver
 ```
 
 Build on ```Python 3.6```.
