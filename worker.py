@@ -20,7 +20,8 @@ def is_range(version):
            version.__contains__('.x') or \
            version.__contains__('latest') or \
            version.__contains__('||') or \
-           version.__contains__('next')
+           version.__contains__('next') or \
+           version.__eq__('')
 
 
 # get all versions until the specify date
