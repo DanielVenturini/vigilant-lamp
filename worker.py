@@ -7,7 +7,7 @@ from versionrangeparser import NodeVersionRangeParser
 
 # save the package.json
 def save(package, path):
-    json.dump(package, open(path, 'w'), sort_keys=True, indent=2)
+    json.dump(package, open(path, 'w'), indent=2)
 
 
 # verify if this is a range version
