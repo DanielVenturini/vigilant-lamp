@@ -39,7 +39,7 @@ Then, all dependencies will be downgraded - or upgrade - to best satisfies range
 
 To install, clone this repo and tipe:
 
-```base
+```bash
 make pre
 sudo make install
 ```
@@ -66,7 +66,7 @@ If ```package.json``` is:
 }
 ```
 
-the ```package.json``` result is:
+the command ```lamp package.json``` results in:
 
 ```json
 {
