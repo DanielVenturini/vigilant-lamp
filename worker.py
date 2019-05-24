@@ -38,6 +38,18 @@ def get_times(time, date):
     return versions
 
 
+# get the resolved version and verify if exists
+def get_version(versions, svr):
+    resolved_version = svr.best_satisfies(versions)
+    # verify if resolved_version exists
+    # if ntw.exists(resolved_version):
+    #   return resolved_versions
+    # else:
+    #   versions.remove(resolved_version)
+    #   return get_version(versions, svr)
+    return resolved_version
+
+
 # get only the versions that is major
 # get all package.json's and get the maximum version of specify range version
 def resolve_version(dependency, version, date):
@@ -48,7 +60,7 @@ def resolve_version(dependency, version, date):
     nvrp = NodeVersionRangeParser()
     svr = nvrp.parse(version)
     # get the best satisfies range
-    new_version = svr.best_satisfies(versions)
+    new_version = get_version(versions, svr)
 
     # if one version satisfies
     if new_version:
