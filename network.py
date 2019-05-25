@@ -8,6 +8,8 @@ from colorama import Fore, Style
 	interface:
 		get(package_name)
 '''
+# index 0 is the package_name; index 1 is the version
+default_url = 'https://registry.npmjs.org/{0}/-/{0}-{1}.tgz'
 
 def get(package_name):
 
@@ -18,3 +20,11 @@ def get(package_name):
 		raise Exception()
 	else:
 		return response.json()
+
+def exists(package_name, resolved_version):
+	url_package = default_url.format(package_name, resolved_version)
+	response = requests.head(url_package)
+	if response.status_code == 404:
+		return False
+	else:
+		return True

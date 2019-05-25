@@ -39,15 +39,17 @@ def get_times(time, date):
 
 
 # get the resolved version and verify if exists
-def get_version(versions, svr):
+def get_version(dependency, versions, svr):
+    if not len(versions):
+        return None
+
     resolved_version = svr.best_satisfies(versions)
     # verify if resolved_version exists
-    # if ntw.exists(resolved_version):
-    #   return resolved_versions
-    # else:
-    #   versions.remove(resolved_version)
-    #   return get_version(versions, svr)
-    return resolved_version
+    if ntw.exists(dependency, resolved_version):
+        return resolved_version
+    else:
+        versions.remove(str(resolved_version))
+        return get_version(dependency, versions, svr)
 
 
 # get only the versions that is major
@@ -60,7 +62,7 @@ def resolve_version(dependency, version, date):
     nvrp = NodeVersionRangeParser()
     svr = nvrp.parse(version)
     # get the best satisfies range
-    new_version = get_version(versions, svr)
+    new_version = get_version(dependency, versions, svr)
 
     # if one version satisfies
     if new_version:
