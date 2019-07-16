@@ -1,9 +1,5 @@
 all: deps executable install
 
-pre:
-	make deps
-	make executable
-
 install:
 	cp dist/lamp/* /usr/bin/ -r
 

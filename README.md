@@ -40,11 +40,18 @@ Then, all dependencies will be downgraded - or upgrade - to best satisfies range
 To install, clone this repo and tipe:
 
 ```bash
-make pre
+pip-sync requirements.txt
+make executable
 sudo make install
 ```
 
 this download all dependencies and install.
+
+If you don't have the `pip-sync`, you can tipe:
+
+```bash
+make deps
+```
 
 Be happy.
 
@@ -101,7 +108,7 @@ Suport any types of range:
  - ...
 
 ## Dependencies
-All dependencies are installed when ```make pre```.
+All dependencies are installed when `pip-sync requirements.txt` or `make deps`.
 ```bash
 pip3 install requests
 pip3 install semantic_version
