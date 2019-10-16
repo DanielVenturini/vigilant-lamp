@@ -40,7 +40,6 @@ Then, all dependencies will be downgraded - or upgrade - to best satisfies range
 To install, clone this repo and tipe:
 
 ```bash
-pip3 install -r requirements.txt
 make executable
 sudo make install
 ```
@@ -100,7 +99,7 @@ Suport any types of range:
  - ...
 
 ## Dependencies
-All dependencies are installed when `pip3 install -r requirements.txt`.
+All dependencies are installed when `make executable`.
 ```bash
 pip3 install requests
 pip3 install semantic_version
