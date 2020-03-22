@@ -13,7 +13,7 @@ default_url = 'https://registry.npmjs.org/{0}/-/{0}-{1}.tgz'
 
 def get(package_name):
 
-	response = requests.get('http://registry.npmjs.org/' + package_name)
+	response = requests.request('GET', 'http://registry.npmjs.org/' + package_name, timeout=3)
 
 	if response.status_code == 404:
 		print(Fore.RED + 'package `{0}´ not found.'.format(package_name))
@@ -23,7 +23,7 @@ def get(package_name):
 
 def exists(package_name, resolved_version):
 	url_package = default_url.format(package_name, resolved_version)
-	response = requests.head(url_package)
+	response = requests.request('HEAD', url_package, timeout=3)
 	if response.status_code == 404:
 		return False
 	else:
