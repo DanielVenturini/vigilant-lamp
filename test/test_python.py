@@ -5,15 +5,18 @@ import subprocess as sp
 
 class PythonTest(unittest.TestCase):
 
-    # execute the lamp to specify package.json
-    def __init__(self, *args, **kwargs):
-        super(PythonTest, self).__init__(*args, **kwargs)
-
+    @classmethod
+    def setUpClass(self):
         # execute the lampy and resolve the package.json
         sp.call(['python3', path.join('..', 'lamp.py'), 'package.json'])
 
-        self.package = json.load(open('package.json'))
-        self.msg     = 'The resolved version of {}'
+        self.file = open('package.json')
+        self.package = json.load(self.file)
+        self.msg = 'The resolved version of {}'
+
+    @classmethod
+    def tearDownClass(self):
+        self.file.close()
 
     '''
     n, m and o represents a constants
@@ -77,7 +80,7 @@ class PythonTest(unittest.TestCase):
     # test for the range *
     def test_react(self):
         # Arange
-        version = self.package['optionalDependencies']['react']
+        version = self.package['dependencies']['react']
         # Act
         resolved = '0.14.0-alpha3'
         # Assert
