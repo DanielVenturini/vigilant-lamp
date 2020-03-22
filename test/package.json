@@ -6,7 +6,7 @@
     "react": "0.x || 10.0.x"
   },
   "devDependencies": {
-    "mongoose": "^4.5.9",
+    "mongoose": "^5.9.5",
     "mocha": "2.2.0"
   },
   "peerDependencies": {
