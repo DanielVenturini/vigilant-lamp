@@ -1,0 +1,21 @@
+{
+  "date": "2015-06-30T18:33:50.558Z",
+  "dependencies": {
+    "express": "^4.10.6",
+    "lodash": "~3.9.0",
+    "react": "0.x || 10.0.x"
+  },
+  "devDependencies": {
+    "mongoose": "^4.5.9",
+    "mocha": "2.2.0"
+  },
+  "peerDependencies": {
+    "socket.io": "^1.x",
+    "jsdom": "4.x"
+  },
+  "optionalDependencies": {
+    "jsdom": "^0.10.0 || ^5",
+    "validate-npm-package-name": "latest",
+    "mongodb": ">=2.1"
+  }
+}
