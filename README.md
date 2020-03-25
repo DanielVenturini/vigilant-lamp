@@ -19,9 +19,9 @@ but, the follow is better:
 }
 ```
 
-because this is an NPM time standart.
+because this is an NPM time standard.
 
-Then, tipe
+Then, type
 
 ```bash
 lamp package.json
@@ -37,11 +37,11 @@ Then, all dependencies will be downgraded - or upgrade - to best satisfies range
 
 ## Install
 
-To install, clone this repo and tipe:
+To install, clone this repo and type:
 
 ```bash
-make executable
-sudo make install
+make
+make install    # try with super
 ```
 
 this download all dependencies and install. Be happy.
@@ -86,7 +86,7 @@ the command ```lamp package.json``` results in:
 
 also works to ```peerDependencies```, ```optionalDependencies``` and ```globalDependencies```.
 
-Suport any types of range:
+Support any types of range:
  - "package": "^1.2.3"
  - "package": "~1.2.3"
  - "package": "^1.x"
@@ -97,6 +97,13 @@ Suport any types of range:
  - "package": "^2.x < 2.9"
  - "package": "0.x || 10.0.x"
  - ...
+ 
+## Tests
+To execute the tests
+```bash
+cd test/
+python3 test_*.py
+```
 
 ## Dependencies
 All dependencies are installed when `make executable`.

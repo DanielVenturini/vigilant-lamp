@@ -1,10 +1,15 @@
-all: deps executable install
+all: deps executable
 
 deps:
 	pip3 install -r requirements.txt
 
 install:
-	cp dist/lamp/* /usr/bin/ -r
+	cp dist/lamp /usr/bin/ -r
 
-executable: deps
-	pyinstaller lamp.py -y
+executable:
+	pyinstaller lamp.py -y --onefile
+
+clean:
+	rm -r build/
+	rm -r dist/
+	rm lamp.spec
