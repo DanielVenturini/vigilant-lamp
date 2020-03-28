@@ -4,12 +4,12 @@ deps:
 	pip3 install -r requirements.txt
 
 install:
-	cp dist/lamp /usr/bin/ -r
+	cp dist/main /usr/bin/lamp -r
 
 executable:
-	pyinstaller lamp.py -y --onefile
+	pyinstaller main.py -y --onefile
 
 clean:
 	rm -r build/
 	rm -r dist/
-	rm lamp.spec
+	rm main.spec

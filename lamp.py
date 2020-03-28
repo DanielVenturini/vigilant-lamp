@@ -2,6 +2,7 @@ import worker as wk
 from colorama import Fore
 import logging
 import sys
+import os
 
 from npm.file import get_file as npm_get_file, verify_date as npm_verify_date
 
@@ -18,11 +19,12 @@ languagesConfiguration = {
 # verify the filename in languagesConfiguration
 # returns the ('versioning_file', 'package manager'), eg. ('package.json', 'npm')
 # raise an error if filename doesn't match
-def search_language(file):
+def search_language(path):
+    file = os.path.split(path)[-1]  # path/to/package.json => package.json
     # search in each language
     for language in list(languagesConfiguration):
         if file in languagesConfiguration[language]:
-            return file, language
+            return path, language
 
     logging.error(Fore.RED + 'Error: unknown \'{}\' package manager.'.format(file))
     exit(1)
@@ -71,8 +73,12 @@ def lamp(files):
 
 
 # THIS FILE SHOULDN'T BE EXECUTED DIRECTLY
+# execute main.py instead
 # but, if it will, ignore the options
 if __name__ == '__main__':
+    files = []
     for arg in sys.argv[1:]:
         if not arg.startswith('-'):
-            lamp(arg)
+            files.append(arg)
+
+    lamp(files)
