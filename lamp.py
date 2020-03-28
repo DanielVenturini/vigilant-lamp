@@ -1,28 +1,31 @@
-import sys
-import json
 import worker as wk
-from sys import exit
 from colorama import Fore
+import logging
+import sys
+
+from npm.file import get_file as npm_get_file, verify_date as npm_verify_date
+
+logging.basicConfig(format='%(message)s', level=logging.INFO)
+
+languagesConfiguration = {
+    'npm': ['package.json'],
+    # will be supported, in future
+    # 'pip': ['requirements.txt', 'pipfile', 'pyproject.toml'],
+    # 'gem': ['gemfile', 'foo.gemspec']
+}
 
 
-# get the path/to/package.json
-def resolve_package(package_path):
+# verify the filename in languagesConfiguration
+# returns the ('versioning_file', 'package manager'), eg. ('package.json', 'npm')
+# raise an error if filename doesn't match
+def search_language(file):
+    # search in each language
+    for language in list(languagesConfiguration):
+        if file in languagesConfiguration[language]:
+            return file, language
 
-    try:
-        return json.load(open(package_path))
-    except Exception as ex:
-        print('ERR: ' + str(ex))
-        exit(1)
-
-
-# verify 'date' key in package.json
-def verify_date(package):
-
-    try:
-        return package['date']
-    except:
-        print(Fore.RED + 'ERR: package hasn\'t `date´ key.')
-        exit(1)
+    logging.error(Fore.RED + 'Error: unknown \'{}\' package manager.'.format(file))
+    exit(1)
 
 
 '''
@@ -30,20 +33,46 @@ def verify_date(package):
 '''
 
 
-# check the call
-if sys.argv.__len__() != 2:
-    print(Fore.YELLOW + 'USE:')
-    print('    lamp package.json')
-    print('or')
-    print('    lamp path/to/package.json')
-    exit(0)
+def verify_file(path, pck_mng):
+    """
+    This function just call the specify 'open file' and 'verify date' for specify package manager
+    :param path: the path of versioning file
+    :param pck_mng: package manager
+    :return: The file object: npm -> .json
+    """
+    file_obj, date = None, None
 
-path = sys.argv[1]
-# get package.json
-package = resolve_package(path)
+    if pck_mng.__eq__('npm'):
+        file_obj = npm_get_file(path)
+        date = npm_verify_date(file_obj)
 
-# verify if package.json has 'date' key
-date = verify_date(package)
+    return file_obj, date
 
-# resolve all range versions
-wk.worker(package, date, path)
+
+def lamp(files):
+    """
+    This function starts to solve the versioning files
+    This function verifies if each file is supported, that is, has a package manager specified in languagesConfiguration
+    Then, verifies if each file exists and has a 'date' key
+    :param files: the versioning files path
+    :return: None
+    """
+    for file in files:
+        path, pck_mng = search_language(file)
+
+        try:
+            file_obj, date = verify_file(path, pck_mng)
+        except:
+            logging.error(Fore.RED + 'The file {} wont be executed')
+            continue    # doesn't execute this file
+
+        # resolve all range versions
+        wk.worker(file_obj, date, path)
+
+
+# THIS FILE SHOULDN'T BE EXECUTED DIRECTLY
+# but, if it will, ignore the options
+if __name__ == '__main__':
+    for arg in sys.argv[1:]:
+        if not arg.startswith('-'):
+            lamp(arg)
