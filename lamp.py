@@ -40,7 +40,7 @@ def verify_file(path, pck_mng):
     This function just call the specify 'open file' and 'verify date' for specify package manager
     :param path: the path of versioning file
     :param pck_mng: package manager
-    :return: The file object: npm -> .json
+    :return: The file object and its specified date: npm -> .json
     """
     file_obj, date = None, None
 
@@ -65,7 +65,7 @@ def lamp(files):
         try:
             file_obj, date = verify_file(path, pck_mng)
         except:
-            logging.error(Fore.RED + 'The file {} wont be executed')
+            logging.error(Fore.RED + 'The file \'{}\' will not be executed'.format(file))
             continue    # doesn't execute this file
 
         # resolve all range versions
