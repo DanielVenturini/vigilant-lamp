@@ -2,7 +2,7 @@ from common import convert_datetime
 from colorama import Fore, Style
 from versionrangeparser import NodeVersionRangeParser
 from npm.file import get_dependencies as npm_get_dependencies, save as npm_save
-from npm.operations import get_times as npm_get_times
+from npm.operations import get_times as npm_get_times, version_exists as npm_version_exists
 
 
 # verify if this is a range version
@@ -20,7 +20,7 @@ def is_range(version):
 
 
 # get all versions until the specify date
-def get_times(times, date):
+def get_versions(times, date):
 
     versions = []
     date = convert_datetime(date)
@@ -34,17 +34,22 @@ def get_times(times, date):
 
 
 # get the resolved version and verify if exists
-def get_version(dependency, versions, svr):
+def get_resolved_version(dependency, versions, svr, pck_mng):
     if not len(versions):
         return None
 
+    version_exists = None
     resolved_version = svr.best_satisfies(versions)
-    # verify if resolved_version exists
-    if ntw.exists(dependency, resolved_version):
+    # just get the function pointer for each pkg_mng
+    if pck_mng.__eq__('npm'):
+        version_exists = npm_version_exists
+
+    # verify if resolved version exists
+    if version_exists(dependency, resolved_version):
         return resolved_version
     else:
         versions.remove(str(resolved_version))
-        return get_version(dependency, versions, svr)
+        return get_resolved_version(dependency, versions, svr, pck_mng)
 
 
 # get only the versions that are equal or greater
@@ -59,13 +64,12 @@ def resolve_version(dependency, version, date, pck_mng):
         return version
 
     # removes all version after that specify date
-    versions = get_times(times, date)
-    print(versions)
+    versions = get_versions(times, date)
     # resolve the range
     nvrp = NodeVersionRangeParser()
     svr = nvrp.parse(version)
     # get the best satisfied range
-    new_version = get_version(dependency, versions, svr)
+    new_version = get_resolved_version(dependency, versions, svr, pck_mng)
 
     # if one version satisfies
     if new_version:
@@ -77,6 +81,7 @@ def resolve_version(dependency, version, date, pck_mng):
 # change all range versions in specify dependency
 def worker_dependencies(dependencies, date, pck_mng):
 
+    new_dependencies = []
     for dependency in dependencies:
 
         dep_name = dependency[0]
@@ -93,8 +98,9 @@ def worker_dependencies(dependencies, date, pck_mng):
             color = Fore.RED
 
         print(color + '{0}@{1}'.format(dep_name, dep_version) + ' -> ' + new_version + Style.RESET_ALL)
-        dependency[1] = new_version
+        new_dependencies.append((dep_name, new_version, dependency[2]))
 
+    return new_dependencies
 
 def worker(file_obj, date, path, pck_mng):
     """
@@ -106,5 +112,5 @@ def worker(file_obj, date, path, pck_mng):
     """
     if pck_mng.__eq__('npm'):
         dependencies = npm_get_dependencies(file_obj)
-        worker_dependencies(dependencies, date, pck_mng)
-        npm_save(file_obj, dependencies, path)
+        dependencies = worker_dependencies(dependencies, date, pck_mng)
+        #npm_save(file_obj, dependencies, path)

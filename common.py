@@ -14,8 +14,11 @@ def open_file(path, mode='r'):
         exit(1)
 
 
-def get(url):
+#########
+# NETWORK
+#########
 
+def get(url):
     response = requests.request('GET', url, timeout=3)
 
     if response.status_code == 404:
@@ -24,7 +27,14 @@ def get(url):
         return response
 
 
-###### TIME OPERATIONS
+def exists(url_version):
+    response = requests.request('HEAD', url_version, timeout=3)
+    return not response.status_code == 404
+
+
+#################
+# TIME OPERATIONS
+#################
 
 def get_time_hour(time):
     try:

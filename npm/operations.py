@@ -1,4 +1,4 @@
-from common import get
+from common import get, exists
 from colorama import Fore
 
 registry_url = 'http://registry.npmjs.org/'
@@ -26,3 +26,10 @@ def get_times(dependency):
         times.append((time, times_raw[time]))
 
     return times
+
+
+def version_exists(dependency, resolved_version):
+    url_version = 'https://registry.npmjs.org/{0}/-/{0}-{1}.tgz'
+    url_version = url_version.format(dependency, resolved_version)
+
+    return exists(url_version)
