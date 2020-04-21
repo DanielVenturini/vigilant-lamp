@@ -1,13 +1,8 @@
-import json
-import network as ntw
+from common import convert_datetime
 from colorama import Fore, Style
 from versionrangeparser import NodeVersionRangeParser
 from npm.file import get_dependencies as npm_get_dependencies, save as npm_save
-
-
-# save the package.json
-def save(package, path):
-    json.dump(package, open(path, 'w'), indent=2)
+from npm.operations import get_times as npm_get_times
 
 
 # verify if this is a range version
@@ -25,14 +20,14 @@ def is_range(version):
 
 
 # get all versions until the specify date
-def get_times(time, date):
+def get_times(times, date):
 
     versions = []
-    for version in list(time.keys()):
-        if version.__eq__('created') or version.__eq__('modified'):
-            continue
+    date = convert_datetime(date)
+    for version_info in times:
+        version, v_date = version_info
 
-        if time[version] <= date:
+        if convert_datetime(v_date) <= date:
             versions.append(version)
 
     return versions
@@ -52,16 +47,24 @@ def get_version(dependency, versions, svr):
         return get_version(dependency, versions, svr)
 
 
-# get only the versions that is major
-# get all package.json's and get the maximum version of specify range version
-def resolve_version(dependency, version, date):
+# get only the versions that are equal or greater
+# get all package.json and get the maximum version of specify range version
+def resolve_version(dependency, version, date, pck_mng):
+    times = None
 
-    time = ntw.get(dependency)['time']
-    versions = get_times(time, date)
+    if pck_mng.__eq__('npm'):
+        times = npm_get_times(dependency)
+
+    if not times:
+        return version
+
+    # removes all version after that specify date
+    versions = get_times(times, date)
+    print(versions)
     # resolve the range
     nvrp = NodeVersionRangeParser()
     svr = nvrp.parse(version)
-    # get the best satisfies range
+    # get the best satisfied range
     new_version = get_version(dependency, versions, svr)
 
     # if one version satisfies
@@ -72,28 +75,25 @@ def resolve_version(dependency, version, date):
 
 
 # change all range versions in specify dependency
-def worker_dependencies(dependencies, date):
+def worker_dependencies(dependencies, date, pck_mng):
 
     for dependency in dependencies:
 
-        # get the version
-        version = dependencies[dependency]
-        if not is_range(version):
+        dep_name = dependency[0]
+        dep_version = dependency[1]
+        if not is_range(dep_version):
             continue
 
         # resolve version
         try:
-            new_version = resolve_version(dependency, version, date)
-        except Exception:
-            new_version = version
-
-        if new_version.__eq__(version):
-            color = Fore.RED
-        else:
+            new_version = resolve_version(dep_name, dep_version, date, pck_mng)
             color = ''
+        except Exception:
+            new_version = dep_version
+            color = Fore.RED
 
-        print(color + '{0}@{1}'.format(dependency, dependencies[dependency]) + ' -> ' + new_version + Style.RESET_ALL)
-        dependencies[dependency] = new_version
+        print(color + '{0}@{1}'.format(dep_name, dep_version) + ' -> ' + new_version + Style.RESET_ALL)
+        dependency[1] = new_version
 
 
 def worker(file_obj, date, path, pck_mng):
@@ -104,8 +104,7 @@ def worker(file_obj, date, path, pck_mng):
     :param path: the path of file (e.g., path/to/package.json)
     :param pck_mng: the package manager specify in the lampy.py->languagesConfiguration (e.g., 'npm', 'gem')
     """
-
-    if (pck_mng.__eq__('npm')):
+    if pck_mng.__eq__('npm'):
         dependencies = npm_get_dependencies(file_obj)
-        worker_dependencies(dependencies, date)
+        worker_dependencies(dependencies, date, pck_mng)
         npm_save(file_obj, dependencies, path)
