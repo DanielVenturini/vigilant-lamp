@@ -1,8 +1,8 @@
 import json
-import semver
 import network as ntw
 from colorama import Fore, Style
 from versionrangeparser import NodeVersionRangeParser
+from npm.file import get_dependencies as npm_get_dependencies, save as npm_save
 
 
 # save the package.json
@@ -72,7 +72,7 @@ def resolve_version(dependency, version, date):
 
 
 # change all range versions in specify dependency
-def worker_dependeny(dependencies, date):
+def worker_dependencies(dependencies, date):
 
     for dependency in dependencies:
 
@@ -105,21 +105,7 @@ def worker(file_obj, date, path, pck_mng):
     :param pck_mng: the package manager specify in the lampy.py->languagesConfiguration (e.g., 'npm', 'gem')
     """
 
-    # all types of dependencies to NPM
-    typesDependencies = ['dependencies',         \
-                         'devDependencies',      \
-                         'peerDependencies',     \
-                         'optionalDependencies', \
-                         'globalDependencies']
-
-    for types in typesDependencies:
-        try:
-
-            # get all dependencies
-            dependencies = file_obj[types]
-            worker_dependeny(dependencies, date)
-
-        except KeyError:
-            continue
-
-    save(file_obj, path)
+    if (pck_mng.__eq__('npm')):
+        dependencies = npm_get_dependencies(file_obj)
+        worker_dependencies(dependencies, date)
+        npm_save(file_obj, dependencies, path)
