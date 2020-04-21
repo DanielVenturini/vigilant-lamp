@@ -12,22 +12,15 @@ import logging
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 
 
-def print_helper():
-    pass
-
-
-# get the arguments and split into a file and options
-def split_arguments(arguments):
+# get the arguments and returns the files
+def get_files_from_arguments(arguments):
     files = []
-    options = []
 
     for argument in arguments:
-        if argument.startswith('-'):
-            options.append(argument)
-        else:
+        if not argument.startswith('-'):
             files.append(argument.lower())	# Gemfile and gemfile are the same
 
-    return files, options
+    return files
 
 
 # the first argument is the file name, that is, main.py
@@ -36,6 +29,6 @@ def split_arguments(arguments):
 # one of those may be the option --help
 arguments = sys.argv[1:]
 # for now, options will be ignored
-files, options = split_arguments(arguments)
+files = get_files_from_arguments(arguments)
 # execute lamp
 lamp(files)

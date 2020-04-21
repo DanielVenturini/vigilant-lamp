@@ -69,7 +69,7 @@ def lamp(files):
             continue    # doesn't execute this file
 
         # resolve all range versions
-        wk.worker(file_obj, date, path)
+        wk.worker(file_obj, date, path, pck_mng)
 
 
 # THIS FILE SHOULDN'T BE EXECUTED DIRECTLY

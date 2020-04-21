@@ -96,9 +96,14 @@ def worker_dependeny(dependencies, date):
         dependencies[dependency] = new_version
 
 
-
-# change all range versions in package.json
-def worker(package, date, path):
+def worker(file_obj, date, path, pck_mng):
+    """
+    Resolve all ranges in specify date from the package
+    :param file_obj: the object file (e.g., json object for package.json)
+    :param date: the specify date
+    :param path: the path of file (e.g., path/to/package.json)
+    :param pck_mng: the package manager specify in the lampy.py->languagesConfiguration (e.g., 'npm', 'gem')
+    """
 
     # all types of dependencies to NPM
     typesDependencies = ['dependencies',         \
@@ -111,10 +116,10 @@ def worker(package, date, path):
         try:
 
             # get all dependencies
-            dependencies = package[types]
+            dependencies = file_obj[types]
             worker_dependeny(dependencies, date)
 
         except KeyError:
             continue
 
-    save(package, path)
+    save(file_obj, path)
