@@ -27,9 +27,19 @@ def get_times(dependency):
 
     return times
 
+def sub_name(dependency):
+    '''
+    For packages named as @owner/package, the url is a bit different
+    So, return the /'package'; If the package name is normal, just return it
+    '''
+    if not dependency.startswith('@'):
+        return dependency
+    else:
+        return dependency.split('/')[1]
+
 
 def version_exists(dependency, resolved_version):
-    url_version = 'https://registry.npmjs.org/{0}/-/{0}-{1}.tgz'
-    url_version = url_version.format(dependency, resolved_version)
+    url_version = 'https://registry.npmjs.org/{0}/-/{1}-{2}.tgz'
+    url_version = url_version.format(dependency, sub_name(dependency), resolved_version)
 
     return exists(url_version)
