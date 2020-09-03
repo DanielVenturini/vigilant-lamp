@@ -8,11 +8,13 @@ class PythonTest(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         # execute the lampy and resolve the package.json
-        sp.call(['python3', path.join('..', 'lamp.py'), 'package.json'])
+        # sp.call(['python3', path.join('..', 'lamp.py'), 'package.json'])
+        test_file = path.join('test', 'package.json')
+        sp.call(['python3', 'lamp.py', test_file])
 
-        self.file = open('package.json')
+        self.file = open(test_file)
         self.package = json.load(self.file)
-        self.msg = 'The resolved version of {}'
+        self.msg = 'The resolved version of {0} should be {1}, but got {2} instead'
 
     @classmethod
     def tearDownClass(self):
@@ -30,7 +32,7 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '4.13.0'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('express'))
+        self.assertEqual(version, resolved, self.msg.format('express', resolved, version))
 
     # test for the range ~n.m.o
     def test_lodash(self):
@@ -39,7 +41,7 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '3.9.3'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('lodash'))
+        self.assertEqual(version, resolved, self.msg.format('lodash', resolved, version))
 
     # test for a specify range n.m.o
     def test_mocha(self):
@@ -48,7 +50,7 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '2.2.0'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('mocha'))
+        self.assertEqual(version, resolved, self.msg.format('mocha', resolved, version))
 
     # test for a unexisted range in specify date
     def test_mongoose(self):
@@ -57,7 +59,7 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '^4.5.9'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('mongoose'))
+        self.assertEqual(version, resolved, self.msg.format('mongoose', resolved, version))
 
     # test for the range ^n.x
     def test_socket_io(self):
@@ -66,7 +68,7 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '1.3.5'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('socket.io'))
+        self.assertEqual(version, resolved, self.msg.format('socket.io', resolved, version))
 
     # test for the range n.x
     def test_jsdom(self):
@@ -75,16 +77,16 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '4.5.2'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('jsdom'))
+        self.assertEqual(version, resolved, self.msg.format('jsdom', resolved, version))
 
     # test for the range *
     def test_react(self):
         # Arange
         version = self.package['dependencies']['react']
         # Act
-        resolved = '0.14.0-alpha3'
+        resolved = '0.13.3'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('react'))
+        self.assertEqual(version, resolved, self.msg.format('react', resolved, version))
 
     # test for the range latest
     def test_validate_npm_pn(self):
@@ -93,16 +95,16 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '2.2.1'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('validate-npm-package-name'))
+        self.assertEqual(version, resolved, self.msg.format('validate-npm-package-name', resolved, version))
 
     # test for the range >= n.m
     def test_mongodb(self):
         # Arange
         version = self.package['optionalDependencies']['mongodb']
         # Act
-        resolved = '2.1.0-alpha'
+        resolved = '2.0.35'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('mongodb'))
+        self.assertEqual(version, resolved, self.msg.format('mongodb', resolved, version))
 
     # test for the range ^n.x || ^n
     def test_jsdom_other(self):
@@ -111,7 +113,26 @@ class PythonTest(unittest.TestCase):
         # Act
         resolved = '5.5.0'
         # Assert
-        self.assertEqual(version, resolved, self.msg.format('jsdom'))
+        self.assertEqual(version, resolved, self.msg.format('jsdom', resolved, version))
+
+    # test for pre-releases resolving to pre-releases
+    def test_grunt(self):
+        # Arange
+        version = self.package['peerDependencies']['grunt']
+        # Act
+        resolved = '0.4.0-rc8'
+        # Assert
+        self.assertEqual(version, resolved, self.msg.format('grunt', resolved, version))
+
+    # test for pre-releases resolving to pre-releases
+    def test_react_pre(self):
+        # Arange
+        version = self.package['optionalDependencies']['react']
+        # Act
+        resolved = '0.13.3'
+        # Assert
+        self.assertEqual(version, resolved, self.msg.format('react', resolved, version))
+        print(self.package)
 
 if __name__ == '__main__':
     unittest.main()

@@ -9,6 +9,10 @@ install:
 executable:
 	pyinstaller main.py -y --onefile
 
+test:
+	git checkout test/package.json
+	python3 test/test_python.py
+
 clean:
 	rm -r build/
 	rm -r dist/

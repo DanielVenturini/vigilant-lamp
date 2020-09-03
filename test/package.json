@@ -11,11 +11,13 @@
   },
   "peerDependencies": {
     "socket.io": "^1.x",
-    "jsdom": "4.x"
+    "jsdom": "4.x",
+    "grunt": "^0.4.0-rc.2"
   },
   "optionalDependencies": {
     "jsdom": "^0.10.0 || ^5",
     "validate-npm-package-name": "latest",
-    "mongodb": ">=2.1"
+    "mongodb": ">=2.0",
+    "react": "^0.13.0-alpha.2"
   }
 }
