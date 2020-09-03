@@ -7,7 +7,8 @@
   },
   "devDependencies": {
     "mongoose": "^4.5.9",
-    "mocha": "2.2.0"
+    "mocha": "2.2.0",
+    "karma": "^0.13.0-rc.1"
   },
   "peerDependencies": {
     "socket.io": "^1.x",

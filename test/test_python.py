@@ -115,16 +115,16 @@ class PythonTest(unittest.TestCase):
         # Assert
         self.assertEqual(version, resolved, self.msg.format('jsdom', resolved, version))
 
-    # test for pre-releases resolving to pre-releases
+    # test for pre-releases resolving to release
     def test_grunt(self):
         # Arange
         version = self.package['peerDependencies']['grunt']
         # Act
-        resolved = '0.4.0-rc8'
+        resolved = '0.4.5'
         # Assert
         self.assertEqual(version, resolved, self.msg.format('grunt', resolved, version))
 
-    # test for pre-releases resolving to pre-releases
+    # test for pre-releases resolving to release
     def test_react_pre(self):
         # Arange
         version = self.package['optionalDependencies']['react']
@@ -132,7 +132,16 @@ class PythonTest(unittest.TestCase):
         resolved = '0.13.3'
         # Assert
         self.assertEqual(version, resolved, self.msg.format('react', resolved, version))
-        print(self.package)
+
+    # test for pre-releases resolving to pre-releases
+    def test_react_pre(self):
+        # Arange
+        version = self.package['devDependencies']['karma']
+        # Act
+        resolved = '0.13.0-rc.6'
+        # Assert
+        self.assertEqual(version, resolved, self.msg.format('karma', resolved, version))
+
 
 if __name__ == '__main__':
     unittest.main()
