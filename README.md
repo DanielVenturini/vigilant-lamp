@@ -55,7 +55,8 @@ If ```package.json``` is:
   "date": "2015-06-30",
   "dependencies": {
     "express": "^4.10.6",
-    "lodash": "~3.9.0"
+    "lodash": "~3.9.0",
+    "karma": "^0.13.0-rc.1"
   },
   "devDependencies": {
     "mongoose": "^4.5.9",
@@ -71,7 +72,8 @@ the command ```lamp package.json``` results in:
   "date": "2015-06-30",
   "dependencies": {
     "express": "4.13.0",
-    "lodash": "3.9.3"
+    "lodash": "3.9.3",
+    "karma": "0.13.0-rc.6"
   },
   "devDependencies": {
     "mocha": "2.2.0",
@@ -80,7 +82,7 @@ the command ```lamp package.json``` results in:
 }
 ```
 
- - ```express``` and ```lodash``` were changed;
+ - ```express```, ```lodash``` and `karma` were changed;
  - ```mocha``` wasn't range; and
  - in specify date, ```mongoose@^4.5.9``` didn't exist.
 
@@ -89,6 +91,7 @@ also works to ```peerDependencies```, ```optionalDependencies``` and ```globalDe
 Support any types of range:
  - "package": "^1.2.3"
  - "package": "~1.2.3"
+ - "package": ^1.2.3-alpha.1"
  - "package": "^1.x"
  - "package": "4.x"
  - "package": "\*"
@@ -101,8 +104,7 @@ Support any types of range:
 ## Tests
 To execute the tests
 ```bash
-cd test/
-python3 test_*.py
+make test -B
 ```
 
 ## Dependencies

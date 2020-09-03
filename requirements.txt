@@ -1,6 +1,6 @@
-colorama==0.4.1
-parsimonious==0.8.1
-PyInstaller==3.6
-requests==2.22.0
-semantic-version==2.6.0
-semver==2.8.1
+colorama>=0.4.1
+parsimonious>=0.8.1
+PyInstaller>=3.6
+requests>=2.22.0
+semantic-version>=2.6.0
+semver>=2.8.1
