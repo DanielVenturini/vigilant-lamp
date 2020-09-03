@@ -45,7 +45,19 @@ def get_dependencies(file_obj):
 
     return dependencies
 
+# insert in the file_obj all resolved dependencies
+def insert_dependencies(file_obj, dependencies):
+    for dep in dependencies:
+        dep_name = dep[0]
+        resolved_version = dep[1]   # dependencies, devDependencies, peerDependencies, ...
+        field = dep[2]
+
+        file_obj[field][dep_name] = resolved_version
+
+    return file_obj
+
 # save package.json
-#def save(package, path):
 def save(file_obj, dependencies, path):
-    json.dump(package, open_file(path, 'w'), indent=2)
+    file_obj = insert_dependencies(file_obj, dependencies)
+
+    json.dump(file_obj, open_file(path, 'w'), indent=2)

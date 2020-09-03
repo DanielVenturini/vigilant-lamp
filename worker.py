@@ -19,6 +19,27 @@ def is_range(version):
            version.__eq__('')
 
 
+# return True if the version is pre-release
+def is_pre(version):
+    return version.lower().__contains__('-alpha') or \
+           version.lower().__contains__('-beta') or \
+           version.lower().__contains__('-rc') or \
+           version.lower().__contains__('-dev') or \
+           version.lower().__contains__('-git') or \
+           version.lower().__contains__('-patch') or \
+           version.lower().__contains__('-pre')
+
+
+# if 'version' is not pre-release, remove all pre-releases from 'versions'
+def verify_pre(version, versions):
+    # keeps the pre-releases; one of them may match the range
+    if is_pre(version):
+        return versions
+
+    # 'version' is not pre-release, thus remove all pre-releases from version
+    return list(filter(lambda v: not is_pre(v), versions))
+
+
 # get all versions until the specify date
 def get_versions(times, date):
 
@@ -65,6 +86,7 @@ def resolve_version(dependency, version, date, pck_mng):
 
     # removes all version after that specify date
     versions = get_versions(times, date)
+    versions = verify_pre(version, versions)
     # resolve the range
     nvrp = NodeVersionRangeParser()
     svr = nvrp.parse(version)
@@ -113,4 +135,4 @@ def worker(file_obj, date, path, pck_mng):
     if pck_mng.__eq__('npm'):
         dependencies = npm_get_dependencies(file_obj)
         dependencies = worker_dependencies(dependencies, date, pck_mng)
-        #npm_save(file_obj, dependencies, path)
+        npm_save(file_obj, dependencies, path)
