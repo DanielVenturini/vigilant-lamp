@@ -19,6 +19,6 @@
     "jsdom": "^0.10.0 || ^5",
     "validate-npm-package-name": "latest",
     "mongodb": ">=2.0",
-    "react": "^0.13.0-alpha.2"
+    "react": "^16.13.1"
   }
 }
